@@ -1,0 +1,49 @@
+.cc-dot,
+.cc-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+}
+
+.cc-dot {
+  width: 9px;
+  height: 9px;
+  background: var(--accent);
+  box-shadow: 0 0 12px 3px rgba(201, 118, 47, 0.65), 0 0 24px 6px rgba(62, 124, 154, 0.35);
+  transition: opacity 0.2s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+}
+
+.cc-ring {
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid var(--accent2);
+  background: transparent;
+  opacity: 0.75;
+  transition: opacity 0.2s ease, width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
+}
+
+.cc-ring.cc-hover {
+  width: 56px;
+  height: 56px;
+  border-color: var(--accent);
+  background: rgba(201, 118, 47, 0.08);
+}
+
+.cc-dot.cc-clicking {
+  width: 6px;
+  height: 6px;
+}
+
+.cc-ring.cc-clicking {
+  width: 30px;
+  height: 30px;
+  opacity: 1;
+}
+
+.cc-hidden {
+  opacity: 0;
+}

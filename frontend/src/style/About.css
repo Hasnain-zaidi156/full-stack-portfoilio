@@ -1,0 +1,171 @@
+.page-wrap {
+  padding: 8rem 2rem 6rem;
+  position: relative;
+  z-index: 1;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.page-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: var(--accent2);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.7rem;
+}
+
+.page-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 3.5rem;
+}
+
+.page-title span {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.photo-wrap {
+  position: relative;
+}
+
+.photo-card {
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  aspect-ratio: 3/4;
+  max-width: 320px;
+  position: relative;
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-no {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 6rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.photo-badge {
+  position: absolute;
+  bottom: -1.2rem;
+  right: -1.2rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  border-radius: 14px;
+  padding: 1rem 1.3rem;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 10px 35px rgba(59, 130, 246, 0.45);
+}
+
+.photo-badge small {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 500;
+  opacity: 0.85;
+  margin-bottom: 2px;
+  letter-spacing: 0.06em;
+}
+
+.text-side h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.3rem;
+  background: linear-gradient(135deg, var(--text), var(--text2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-side p {
+  color: var(--muted);
+  line-height: 1.85;
+  font-size: 1rem;
+  margin-bottom: 1.1rem;
+  font-weight: 300;
+}
+
+.text-side p strong {
+  color: var(--text2);
+  font-weight: 500;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.2rem 1.5rem;
+  transition: all 0.3s;
+}
+
+.info-card:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  background: var(--surface2);
+}
+
+.info-card strong {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--accent2);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.info-card span {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .photo-card { max-width: 260px; margin: 0 auto; }
+  .photo-wrap { display: flex; justify-content: center; }
+  .photo-badge { right: 0; }
+}
+
+@media (max-width: 640px) {
+  .info-grid { grid-template-columns: 1fr; }
+}

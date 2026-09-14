@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+:root {
+  /* Iron & Copper — dark charcoal/slate base, steel-blue + copper/amber accents */
+  --bg: #0b0f14;
+  --bg2: #111720;
+  --surface: #161d27;
+  --surface2: #1e2733;
+  --accent: #c9762f;
+  --accent2: #3e7c9a;
+  --accent3: #52616f;
+  --text: #edf1f5;
+  --text2: #b9c3cc;
+  --muted: #6b7684;
+  --border: rgba(62, 124, 154, 0.18);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(201, 118, 47, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(62, 124, 154, 0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 60% 30%, rgba(82, 97, 111, 0.07) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(62, 124, 154, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(62, 124, 154, 0.035) 1px, transparent 1px);
+  background-size: 70px 70px;
+  pointer-events: none;
+}
+
+/* Hide native cursor on desktop where custom cursor takes over */
+@media (hover: hover) and (pointer: fine) {
+  body {
+    cursor: none;
+  }
+  a, button, input, textarea, select, [role='button'] {
+    cursor: none;
+  }
+}
+
+footer {
+  padding: 2rem;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+  position: relative;
+  z-index: 1;
+}
+
+footer span {
+  color: var(--accent);
+}
