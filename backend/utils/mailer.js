@@ -4,49 +4,51 @@ import nodemailer from 'nodemailer';
 //  - Gmail + App Password (EMAIL_SERVICE=gmail, EMAIL_USER, EMAIL_PASS)
 //  - Custom SMTP (SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS)
 function createTransporter() {
-  if (process.env.EMAIL_SERVICE) {
-    return nodemailer.createTransport({
-      service: process.env.EMAIL_SERVICE, // e.g. "gmail"
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-  }
+    if (process.env.EMAIL_SERVICE) {
+        return nodemailer.createTransport({
+            service: process.env.EMAIL_SERVICE, // e.g. "gmail"
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+    }
 
-  return nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT || 587),
-    secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
+    return nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT || 587),
+        secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
+        auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+        },
+    });
 }
 
 export const transporter = createTransporter();
 
 export async function verifyMailer() {
-  try {
-    await transporter.verify();
-    console.log('Mailer ready ✅');
-  } catch (err) {
-    console.error('Mailer verification failed:', err.message);
-  }
+    try {
+        await transporter.verify();
+        console.log('Mailer ready ✅');
+    } catch (err) {
+        console.error('Mailer verification failed:', err.message);
+    }
 }
 
-const fromAddress = () => process.env.EMAIL_USER || process.env.SMTP_USER;
+// const fromAddress = () => process.env.EMAIL_USER || process.env.SMTP_USER
+const fromAddress = () => process.env.FROM_EMAIL || process.env.EMAIL_USER || process.env.SMTP_USER;
+
 
 export async function sendOwnerNotification({ name, email, phone, subject, message }) {
-  const to = process.env.OWNER_EMAIL || fromAddress();
+    const to = process.env.OWNER_EMAIL || fromAddress();
 
-  return transporter.sendMail({
-    from: `"Portfolio Contact" <${fromAddress()}>`,
-    to,
-    replyTo: email,
-    subject: `New portfolio message: ${subject || 'No subject'}`,
-    text: `From: ${name} <${email}>${phone ? `\nPhone: ${phone}` : ''}\n\n${message}`,
+    return transporter.sendMail({
+                from: `"Portfolio Contact" <${fromAddress()}>`,
+                to,
+                replyTo: email,
+                subject: `New portfolio message: ${subject || 'No subject'}`,
+                text: `From: ${name} <${email}>${phone ? `\nPhone: ${phone}` : ''}\n\n${message}`,
     html: `
       <div style="font-family: Arial, sans-serif; line-height:1.6; color:#1a1a1a;">
         <h2 style="margin:0 0 12px;">New message from your portfolio</h2>
