@@ -4,7 +4,7 @@ import '../style/Contact.css';
 import { IconMail } from '../components/Icons';
 import { sendContactMessage } from '../utils/api';
 
-const initialForm = { name: '', email: '', phone: '', subject: '', message: '', company: '' };
+const initialForm = { name: '', email: '', phone: '', subject: '', message: '', hp_token: '' };
 
 export default function Contact() {
   const [form, setForm] = useState(initialForm);
@@ -161,12 +161,12 @@ export default function Contact() {
           {/* Honeypot field — hidden from real users, bots tend to fill it in */}
           <input
             type="text"
-            name="company"
-            value={form.company}
+            name="hp_token"
+            value={form.hp_token}
             onChange={handleChange}
             className="hp-field"
             tabIndex={-1}
-            autoComplete="off"
+            autoComplete="new-password"
             aria-hidden="true"
           />
 

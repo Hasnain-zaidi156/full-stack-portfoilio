@@ -18,11 +18,11 @@ const phoneRegex = /^[0-9+\-\s()]{7,20}$/;
 
 router.post('/', contactLimiter, async (req, res) => {
   try {
-    const { name, email, phone, subject, message, company } = req.body || {};
+    const { name, email, phone, subject, message, hp_token } = req.body || {};
 
     // Honeypot: real users never fill this hidden field. If it's filled, silently
     // pretend success so bots don't learn to look for a different signal.
-    if (company) {
+    if (hp_token) {
       return res.status(200).json({ success: true, message: 'Message sent successfully!' });
     }
 
