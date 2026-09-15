@@ -214,4 +214,13 @@ export const projects = [{
         demo: 'https://todo-list-by-hasnain.netlify.app/',
         github: 'https://github.com/Hasnain-zaidi156',
     },
+    {
+        title: 'Zaidi Homoeo Clinic',
+        desc: 'A responsive website for a homeopathic clinic, providing information about services and allowing online appointment booking.',
+        tags: ['HTML5', 'CSS3', 'JavaScript', 'Responsive'],
+        img: 'https://i.ibb.co/jPnqzMm0/Chat-GPT-Image-Aug-26-2026-10-48-53-AM.png',
+        placeholder: '',
+        demo: 'https://zaidi-homoeo-clinic.netlify.app/',
+        github: 'https://github.com/Hasnain-zaidi156',
+    },
 ];
