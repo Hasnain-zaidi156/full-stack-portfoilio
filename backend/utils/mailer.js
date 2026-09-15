@@ -1,54 +1,70 @@
-import nodemailer from 'nodemailer';
+// Sends email via Brevo's Transactional Email HTTP API (https://api.brevo.com).
+// We use the HTTP API instead of SMTP because most free hosting tiers
+// (Render, Railway, etc.) block outbound SMTP ports (25/465/587), but
+// regular HTTPS traffic is never blocked.
 
-// Builds a Nodemailer transporter using either:
-//  - Gmail + App Password (EMAIL_SERVICE=gmail, EMAIL_USER, EMAIL_PASS)
-//  - Custom SMTP (SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS)
-function createTransporter() {
-    if (process.env.EMAIL_SERVICE) {
-        return nodemailer.createTransport({
-            service: process.env.EMAIL_SERVICE, // e.g. "gmail"
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
-            },
-        });
-    }
+const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
-    return nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT || 587),
-        secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
-        auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS,
-        },
-    });
+function getFromEmail() {
+  return process.env.FROM_EMAIL || process.env.SENDER_EMAIL;
 }
 
-export const transporter = createTransporter();
+function getApiKey() {
+  return process.env.BREVO_API_KEY;
+}
+
+async function sendViaBrevo({ to, replyTo, subject, text, html }) {
+  const apiKey = getApiKey();
+  const fromEmail = getFromEmail();
+
+  if (!apiKey) throw new Error('BREVO_API_KEY is not set');
+  if (!fromEmail) throw new Error('FROM_EMAIL is not set');
+
+  const res = await fetch(BREVO_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'api-key': apiKey,
+    },
+    body: JSON.stringify({
+      sender: { email: fromEmail, name: 'Portfolio' },
+      to: [{ email: to }],
+      ...(replyTo ? { replyTo: { email: replyTo } } : {}),
+      subject,
+      textContent: text,
+      htmlContent: html,
+    }),
+  });
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`Brevo API error (${res.status}): ${body}`);
+  }
+
+  return res.json();
+}
 
 export async function verifyMailer() {
-    try {
-        await transporter.verify();
-        console.log('Mailer ready ✅');
-    } catch (err) {
-        console.error('Mailer verification failed:', err.message);
-    }
+  if (!getApiKey()) {
+    console.error('Mailer verification failed: BREVO_API_KEY is not set');
+    return;
+  }
+  if (!getFromEmail()) {
+    console.error('Mailer verification failed: FROM_EMAIL is not set');
+    return;
+  }
+  console.log('Mailer ready ✅ (Brevo HTTP API)');
 }
 
-// const fromAddress = () => process.env.EMAIL_USER || process.env.SMTP_USER
-const fromAddress = () => process.env.FROM_EMAIL || process.env.EMAIL_USER || process.env.SMTP_USER;
-
-
 export async function sendOwnerNotification({ name, email, phone, subject, message }) {
-    const to = process.env.OWNER_EMAIL || fromAddress();
+  const to = process.env.OWNER_EMAIL || getFromEmail();
 
-    return transporter.sendMail({
-                from: `"Portfolio Contact" <${fromAddress()}>`,
-                to,
-                replyTo: email,
-                subject: `New portfolio message: ${subject || 'No subject'}`,
-                text: `From: ${name} <${email}>${phone ? `\nPhone: ${phone}` : ''}\n\n${message}`,
+  return sendViaBrevo({
+    to,
+    replyTo: email,
+    subject: `New portfolio message: ${subject || 'No subject'}`,
+    text: `From: ${name} <${email}>${phone ? `\nPhone: ${phone}` : ''}\n\n${message}`,
     html: `
       <div style="font-family: Arial, sans-serif; line-height:1.6; color:#1a1a1a;">
         <h2 style="margin:0 0 12px;">New message from your portfolio</h2>
@@ -64,8 +80,7 @@ export async function sendOwnerNotification({ name, email, phone, subject, messa
 }
 
 export async function sendAutoReply({ name, email }) {
-  return transporter.sendMail({
-    from: `"Portfolio" <${fromAddress()}>`,
+  return sendViaBrevo({
     to: email,
     subject: 'Thanks for reaching out!',
     text: `Hi ${name},\n\nThanks for your message — I've received it and will get back to you soon.\n\nBest,\nHasnain`,

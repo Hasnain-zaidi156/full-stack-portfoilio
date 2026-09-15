@@ -7,6 +7,10 @@ import { verifyMailer } from './utils/mailer.js';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Render (and most hosts) sit behind a reverse proxy that sets X-Forwarded-For;
+// trust the first hop so express-rate-limit can identify clients correctly.
+app.set('trust proxy', 1);
+
 const allowedOrigins = (process.env.FRONTEND_URL || '')
   .split(',')
   .map((o) => o.trim())
