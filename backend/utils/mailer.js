@@ -82,13 +82,13 @@ export async function sendOwnerNotification({ name, email, phone, subject, messa
 export async function sendAutoReply({ name, email }) {
   return sendViaBrevo({
     to: email,
-    subject: 'Thanks for reaching out!',
-    text: `Hi ${name},\n\nThanks for your message — I've received it and will get back to you soon.\n\nBest,\nHasnain`,
+    subject: 'Aapka paigham mil gaya hai — Shukriya!',
+    text: `Assalam-o-Alaikum ${name},\n\nAapka paigham mujhe mil gaya hai, shukriya rabta karne ke liye. Main jald hi aap se rabta karunga/karungi.\n\nJazakAllah,\nHasnain`,
     html: `
-      <div style="font-family: Arial, sans-serif; line-height:1.6; color:#1a1a1a;">
-        <p>Hi ${name},</p>
-        <p>Thanks for reaching out! I've received your message and will get back to you as soon as possible.</p>
-        <p>Best,<br/>Hasnain</p>
+      <div style="font-family: Arial, sans-serif; line-height:1.8; color:#1a1a1a;">
+        <p>Assalam-o-Alaikum ${name},</p>
+        <p>Aapka paigham mujhe mil gaya hai, shukriya rabta karne ke liye. Main jald hi aap se rabta karunga/karungi.</p>
+        <p>JazakAllah,<br/>Hasnain</p>
       </div>
     `,
   });
