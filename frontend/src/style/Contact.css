@@ -161,9 +161,9 @@
 }
 
 .socials-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
-  flex-wrap: wrap;
 }
 
 .soc-card {
@@ -173,11 +173,16 @@
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 1rem 1.4rem;
+  padding: 1rem 1.2rem;
   text-decoration: none;
   transition: all 0.3s;
+  min-width: 0;          /* FIX: warna lamba text card se bahar nikal jata tha */
+  overflow: hidden;
+}
+
+.soc-card > div {
+  min-width: 0;          /* FIX: flex child ko shrink hone ki ijazat */
   flex: 1;
-  min-width: 180px;
 }
 
 .soc-card:hover {
@@ -189,12 +194,29 @@
 .soc-card img { width: 30px; height: 30px; flex-shrink: 0; }
 
 .soc-label { font-size: 0.88rem; font-weight: 600; color: var(--text2); }
-.soc-handle { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
+
+.soc-handle {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 1px;
+  overflow-wrap: anywhere;   /* FIX: email/number ab wrap hoga, cut nahi hoga */
+  word-break: break-word;
+  line-height: 1.35;
+}
 
 @media (max-width: 640px) {
   .cta-block { padding: 1.8rem; }
-  .soc-card { min-width: 140px; }
+  .socials-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem; }
+  .soc-card { padding: 0.85rem 0.8rem; gap: 9px; border-radius: 12px; }
+  .soc-card img { width: 26px; height: 26px; }
+  .soc-label { font-size: 0.8rem; }
+  .soc-handle { font-size: 0.66rem; }
 }
+
+@media (max-width: 380px) {
+  .socials-row { grid-template-columns: 1fr; }
+}
+
 /* Message form */
 .contact-form {
   position: relative;
