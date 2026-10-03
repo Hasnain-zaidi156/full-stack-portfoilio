@@ -4,14 +4,14 @@ import '../style/Skills.css';
 import { IconAtom } from '../components/Icons';
 
 const techSkills = [
-  { name: 'HTML5',      pct: 90, offset: 28.3  },
-  { name: 'CSS3',       pct: 75, offset: 70.75 },
-  { name: 'JavaScript', pct: 40, offset: 169.8 },
-  { name: 'React.js', pct: 30, offset: 198.1, alt: true, icon: true },
+  { name: 'HTML5',      pct: 100, offset: 0  },
+  { name: 'CSS3',       pct: 95, offset: 14.15 },
+  { name: 'JavaScript', pct: 85, offset: 42.45 },
+  { name: 'React.js', pct: 60, offset: 113.2, alt: true, icon: true },
   { name: 'Node.js & Express', pct: 55, offset: 127.35, alt: true },
   { name: 'MongoDB',    pct: 50, offset: 141.5, alt: true },
   { name: 'Bootstrap',  pct: 85, offset: 42.45 },
-  { name: 'Git & GitHub',pct: 60, offset: 113.2 },
+  { name: 'Git & GitHub',pct: 80, offset: 56.6 },
 ];
 
 const proSkills = [

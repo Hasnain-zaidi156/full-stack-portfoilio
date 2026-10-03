@@ -11,6 +11,7 @@ import Contact from './pages/Contact';
 import Resume from './pages/Resume';
 import Achievements from './pages/Achievements';
 import './style/Global.css';
+import './style/Glass.css';
 function App() {
   return (
     <>

@@ -10,7 +10,10 @@ export default function Achievements() {
     const onKey = (e) => e.key === 'Escape' && setActive(null);
     window.addEventListener('keydown', onKey);
     document.body.style.overflow = active ? 'hidden' : '';
-    return () => window.removeEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
   }, [active]);
 
   return (
