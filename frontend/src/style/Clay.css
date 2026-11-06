@@ -1,0 +1,319 @@
+/* ==========================================================================
+   GLASS + CLAY COMBINATION
+   --------------------------------------------------------------------------
+   Glass.css ke upar chalta hai (App.jsx mein uske baad import hota hai).
+   - Glass : frosted blur + translucent surface + edge light  (Glass.css se)
+   - Clay  : mota gol shape + "phoola hua" look (andar ki light/shadow) +
+             naram bahar ki shadow + dabne wala press effect   (yahan se)
+   Wapas sirf glass look chahiye to App.jsx se `import './style/Clay.css'` hata do.
+   ========================================================================== */
+
+
+/* ---------- 1. Tokens ---------- */
+
+:root {
+    --clay-r-lg: 34px;
+    --clay-r-md: 22px;
+    --clay-r-sm: 16px;
+
+    /* Bade cards: glass surface + clay puff */
+    --clay-card:
+        14px 16px 34px rgba(0, 0, 0, 0.46),
+        -8px -8px 22px rgba(255, 255, 255, 0.05),
+        inset 7px 7px 16px rgba(255, 255, 255, 0.17),
+        inset -9px -10px 20px rgba(0, 0, 0, 0.30);
+    --clay-card-hover:
+        18px 22px 44px rgba(0, 0, 0, 0.52),
+        -8px -8px 24px rgba(255, 255, 255, 0.07),
+        inset 7px 7px 16px rgba(255, 255, 255, 0.22),
+        inset -9px -10px 20px rgba(0, 0, 0, 0.30);
+
+    /* Chhote pebbles: buttons, icons, tags */
+    --clay-pebble:
+        6px 8px 16px rgba(0, 0, 0, 0.42),
+        -3px -3px 9px rgba(255, 255, 255, 0.06),
+        inset 3px 3px 7px rgba(255, 255, 255, 0.20),
+        inset -4px -5px 9px rgba(0, 0, 0, 0.26);
+    --clay-pebble-pressed:
+        1px 2px 5px rgba(0, 0, 0, 0.4),
+        inset 4px 5px 10px rgba(0, 0, 0, 0.42),
+        inset -2px -2px 6px rgba(255, 255, 255, 0.10);
+
+    /* Rangeen clay (primary buttons) */
+    --clay-tint: linear-gradient(145deg, #e39243 0%, #c9762f 38%, #4b86a4 100%);
+    --clay-tint-shadow:
+        7px 10px 20px rgba(0, 0, 0, 0.45),
+        -3px -3px 10px rgba(255, 255, 255, 0.08),
+        inset 4px 4px 9px rgba(255, 255, 255, 0.42),
+        inset -5px -7px 12px rgba(0, 0, 0, 0.30);
+}
+
+
+/* ---------- 2. Bade glass panels -> glass-clay cards ---------- */
+
+.hero-inner>div:first-child,
+.photo-card,
+.photo-badge,
+.text-side,
+.circle-item,
+.bar-item,
+.project-card,
+.cta-block,
+.contact-card,
+.soc-card,
+.contact-form,
+.achv-card {
+    border-radius: var(--clay-r-lg);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: var(--clay-card);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Hover: card thoda aur ubharta hai */
+.project-card:hover,
+.contact-card:hover,
+.soc-card:hover,
+.achv-card:hover,
+.circle-item:hover,
+.bar-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--clay-card-hover);
+}
+
+/* Cards jo pehle hi bade/gol hain unka radius na toote */
+.circle-item {
+    border-radius: 50%;
+}
+
+
+/* ---------- 3. Chhote elements -> clay pebbles ---------- */
+
+.hero-badge,
+.soc,
+.btn-o,
+.info-card,
+.tech-badge,
+.tag,
+.pbtn-o,
+.pf-btn,
+.pf-item,
+.pf-admin-status,
+.c-icon,
+.c-btn,
+.lightbox-close,
+.menu-toggle {
+    border-radius: var(--clay-r-sm);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    box-shadow: var(--clay-pebble);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+
+.hero-badge,
+.tag {
+    border-radius: 999px;
+}
+
+.soc:hover,
+.btn-o:hover,
+.info-card:hover,
+.tech-badge:hover,
+.pbtn-o:hover,
+.pf-btn:hover,
+.c-btn:hover,
+.lightbox-close:hover {
+    transform: translateY(-3px);
+}
+
+/* Dabane par clay andar ko dhansta hai */
+.soc:active,
+.btn-o:active,
+.pbtn-o:active,
+.pf-btn:active,
+.c-btn:active,
+.btn-p:active,
+.pbtn-p:active,
+.cta-email:active,
+.form-submit:active:not(:disabled),
+.pf-post:active,
+.resume-download-btn:active,
+.nav-cta:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: var(--clay-pebble-pressed);
+}
+
+
+/* ---------- 4. Primary buttons -> rangeen clay ---------- */
+
+.btn-p,
+.pbtn-p,
+.cta-email,
+.form-submit,
+.pf-post,
+.resume-download-btn {
+    background: var(--clay-tint);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: var(--clay-r-md);
+    box-shadow: var(--clay-tint-shadow);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-p:hover,
+.pbtn-p:hover,
+.cta-email:hover,
+.form-submit:hover:not(:disabled),
+.pf-post:hover,
+.resume-download-btn:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.34);
+    box-shadow:
+        9px 14px 26px rgba(0, 0, 0, 0.5),
+        -3px -3px 10px rgba(255, 255, 255, 0.10),
+        inset 4px 4px 9px rgba(255, 255, 255, 0.5),
+        inset -5px -7px 12px rgba(0, 0, 0, 0.30);
+}
+
+.btn-o {
+    border-radius: var(--clay-r-md);
+}
+
+
+/* ---------- 5. Navbar ---------- */
+
+.navbar {
+    border-radius: 30px;
+    box-shadow:
+        10px 14px 30px rgba(0, 0, 0, 0.42),
+        inset 5px 5px 12px rgba(255, 255, 255, 0.16),
+        inset -6px -7px 14px rgba(0, 0, 0, 0.26);
+}
+
+.nav-links a.active {
+    background: rgba(255, 255, 255, 0.14);
+    box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.22), inset -3px -3px 7px rgba(0, 0, 0, 0.28), 3px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav-cta {
+    border-radius: 18px !important;
+    background: var(--clay-tint) !important;
+    box-shadow: var(--clay-tint-shadow) !important;
+}
+
+.logo img {
+    border-radius: 16px;
+    box-shadow: 3px 5px 12px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+
+/* ---------- 6. Home hero ---------- */
+
+/* Profile photo: mota clay ring */
+.profile-img {
+    border: 6px solid rgba(255, 255, 255, 0.10);
+    box-shadow:
+        10px 14px 30px rgba(0, 0, 0, 0.5),
+        -4px -4px 14px rgba(255, 255, 255, 0.06),
+        inset 4px 4px 10px rgba(255, 255, 255, 0.25),
+        inset -6px -8px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* Floating chips: clay pebble + glass */
+.chip {
+    border-radius: 16px;
+    box-shadow: var(--clay-pebble);
+}
+
+/* Stats: 3 naram clay tiles, glass ke andar */
+.stats {
+    border-top: none;
+    padding-top: 0;
+}
+
+.stats>div {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: var(--clay-r-md);
+    padding: 0.9rem 1.1rem;
+    box-shadow:
+        inset 3px 3px 8px rgba(255, 255, 255, 0.10),
+        inset -4px -5px 10px rgba(0, 0, 0, 0.30),
+        4px 6px 12px rgba(0, 0, 0, 0.30);
+}
+
+/* Naam card se bahar na nikle (Syne bohat chaura font hai):
+   font-size card ki apni chaurai (cqw) se nikalta hai, isliye har screen par fit. */
+.hero-inner>div:first-child {
+    container-type: inline-size;
+}
+
+.hero-title {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    /* "Hasnain" ~6.45em chaura hai -> 6.8 se bhaag do taake kinare par thori jagah bache */
+    font-size: clamp(2rem, calc(100cqw / 6.8), 5rem);
+}
+
+.hero-title .nm {
+    display: inline-block;
+    /* background-clip:text mein aakhri harf ka kinara kat jata tha */
+    padding-right: 0.08em;
+}
+
+.hero-title .ac {
+    padding-right: 0.08em;
+}
+
+.hang-motion-btn {
+    border-radius: 999px;
+    box-shadow: var(--clay-pebble);
+}
+
+
+/* ---------- 7. Footer ---------- */
+
+footer {
+    border-radius: 34px 34px 0 0;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3), inset 4px 4px 12px rgba(255, 255, 255, 0.10), inset -4px -6px 14px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ---------- 8. Mobile ---------- */
+
+@media (max-width: 960px) {
+    .hero-inner>div:first-child {
+        border-radius: 30px;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero-inner>div:first-child {
+        border-radius: 28px;
+        box-shadow:
+            9px 12px 26px rgba(0, 0, 0, 0.45),
+            inset 5px 5px 12px rgba(255, 255, 255, 0.16),
+            inset -6px -8px 16px rgba(0, 0, 0, 0.28);
+    }
+
+    .stats>div {
+        padding: 0.7rem 0.4rem;
+    }
+
+    .btn-p,
+    .btn-o {
+        border-radius: 20px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-card:hover,
+    .contact-card:hover,
+    .soc-card:hover,
+    .achv-card:hover,
+    .circle-item:hover,
+    .bar-item:hover,
+    .soc:hover,
+    .btn-o:hover,
+    .btn-p:hover {
+        transform: none;
+    }
+}

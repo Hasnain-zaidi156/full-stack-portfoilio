@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import CustomCursor from './components/CustomCursor';
+import Loader from './components/Loader';
 import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
@@ -12,9 +13,11 @@ import Resume from './pages/Resume';
 import Achievements from './pages/Achievements';
 import './style/Global.css';
 import './style/Glass.css';
+import './style/Clay.css';
 function App() {
   return (
     <>
+      <Loader />
       <CustomCursor />
       <Navbar />
       <Routes>

@@ -4,6 +4,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import contactRoute from './routes/contact.js';
 import feedbackRoute from './routes/feedback.js';
+import imagesRoute from './routes/images.js';
 import { verifyMailer } from './utils/mailer.js';
 
 const app = express();
@@ -42,6 +43,7 @@ app.get('/health', (req, res) =>
 
 app.use('/api/contact', contactRoute);
 app.use('/api/feedback', feedbackRoute);
+app.use('/api/images', imagesRoute);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Not found' });

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import '../style/Home.css';
 import { downloadResumePdf } from '../utils/generateResumePdf';
 import { IconAtom, IconSparkle } from '../components/Icons';
+import { img } from '../utils/images';
+import HangingPhoto from '../components/HangingPhoto';
 
 export default function Home() {
     const [downloading, setDownloading] = useState(false);
@@ -75,20 +77,34 @@ export default function Home() {
 
                     {/* Right side — orbit visual */}
                     <div className="hero-visual">
+                        <HangingPhoto>
                         <div className="orbit-wrap">
                             <div className="orbit-ring"></div>
                             <div className="orbit-ring2"></div>
                             <div className="profile-img">
                                 <img
-                                    src="https://i.ibb.co/0p0H1SYJ/new-pic.jpg"
+                                    src={img('profile', 'https://i.ibb.co/0p0H1SYJ/new-pic.jpg')}
                                     alt="Hasnain Zaidi"
-                                    onError={(e) => (e.target.style.display = 'none')}
+                                    width="340"
+                                    height="340"
+                                    draggable={false}
+                                    fetchPriority="high"
+                                    onError={(e) => {
+                                        const fb = 'https://i.ibb.co/0p0H1SYJ/new-pic.jpg';
+                                        if (e.target.src !== fb && !e.target.dataset.tried) {
+                                            e.target.dataset.tried = '1';
+                                            e.target.src = fb;
+                                        } else {
+                                            e.target.style.display = 'none';
+                                        }
+                                    }}
                                 />
                             </div>
                             <div className="chip chip-react"><IconAtom /> React.js</div>
                             <div className="chip chip-html">&lt;/&gt; HTML5</div>
                             <div className="chip chip-css"><IconSparkle /> CSS3</div>
                         </div>
+                        </HangingPhoto>
                     </div>
                 </div>
             </section>

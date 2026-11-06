@@ -93,3 +93,16 @@ npm run dev
 - ✅ `express-rate-limit` trust-proxy fix (Render ke reverse proxy ke liye)
 - ✅ `.env` / `.env.example` dono taraf
 - ✅ `render.yaml` + `netlify.toml` (SPA redirect ke sath)
+
+---
+
+## Pictures — `npm run images`
+
+- `cd frontend && npm run images` (ya `cd backend && npm run images`):
+  - `portfolioData.js` ki saari remote pics (ibb.co wagera) download karke `frontend/public/images/` mein rakhta hai aur data file mein link local path (`/images/...`) se badal deta hai
+  - `backend/pictures/` ki pics bhi `public/images/` mein copy karta hai
+  - saari pics MongoDB (`images` collection) mein save karta hai — `backend/.env` mein `MONGO_URI` chahiye, aur pehle `cd backend && npm install`
+  - `src/utils/imagesMap.js` dobara bana deta hai
+- Flags: `--force` (dobara download), `--no-db` (DB skip)
+- DB se pic dekhne ke liye: `GET /api/images` (list) aur `GET /api/images/<key>`
+- `npm run dev` / `npm run build` sirf imagesMap.js refresh karte hain (offline, Netlify safe)

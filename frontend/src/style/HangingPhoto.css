@@ -1,0 +1,81 @@
+/* ---------- Hanging photo ---------- */
+.hang {
+  --size: 380px;
+  position: relative;
+  width: var(--size);
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hang-swing {
+  position: relative;
+  width: 100%;
+  transform-origin: 50% 0;      /* nail se latakti hai */
+  will-change: transform;
+  touch-action: pan-y;          /* vertical scroll chalta rahe, horizontal drag hum sambhalein */
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+}
+.hang-swing:active { cursor: grabbing; }
+
+.hang-thread {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 380 / 165;
+  z-index: 2;
+  overflow: visible;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
+  pointer-events: none;
+}
+
+/* photo dhagay ki lambai ke baad shuru hoti hai (120/380 = 31.6%) */
+.hang-body {
+  padding-top: 31.6%;
+}
+
+.hang .orbit-wrap {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  animation: none;              /* purana up-down float hata diya, ab pendulum hai */
+}
+
+.hang-hint {
+  margin-top: 1.6rem;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-align: center;
+  opacity: 0.85;
+}
+
+.hang-motion-btn {
+  margin-top: 1rem;
+  padding: 9px 18px;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+@media (max-width: 960px) {
+  .hang { --size: min(74vw, 300px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hang-swing { transform: none !important; }
+}
+
+/* photo ko drag/select se bachao */
+.hang img { -webkit-user-drag: none; user-select: none; -webkit-touch-callout: none; }
+.profile-img { -webkit-tap-highlight-color: transparent; }

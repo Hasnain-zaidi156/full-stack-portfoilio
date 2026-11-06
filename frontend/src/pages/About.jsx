@@ -1,5 +1,6 @@
 import React from 'react';
 import '../style/About.css';
+import { img } from '../utils/images';
 
 export default function About() {
   return (
@@ -13,7 +14,7 @@ export default function About() {
           <div className="photo-wrap">
             <div className="photo-card">
               <img
-                src="https://i.ibb.co/0p0H1SYJ/new-pic.jpg"
+                src={img('profile', 'https://i.ibb.co/0p0H1SYJ/new-pic.jpg')}
                 alt="Hasnain Zaidi"
                 onError={(e) => {
                   e.target.style.display = 'none';
