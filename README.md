@@ -135,3 +135,15 @@ Backend API: `GET /api/projects` (public); `POST/PUT/DELETE /api/projects`, `PUT
 - Env variable: `VITE_API_URL` = Render backend URL (bina `/` ke) — env badalne ke baad **Redeploy** zaroori hai
 - `frontend/vercel.json` `/admin` aur `/resume` jaise routes refresh par 404 hone se bachata hai
 - Backend (Render) mein `FRONTEND_URL` = Vercel ka **Domains** wala URL (e.g. `https://my-portflio-phi.vercel.app`), lamba deployment URL nahi
+
+## Backend bhi Vercel par (Render ki zaroorat nahi)
+
+1. Vercel → **Add New Project** → wahi GitHub repo → **Root Directory: `backend`** → Framework: *Other* → Deploy
+   (`backend/vercel.json` + `backend/api/index.js` Express app ko serverless function bana dete hain)
+2. Backend project ke **Environment Variables** mein daalein: `FRONTEND_URL`, `MONGO_URI`, `ADMIN_KEY`, `BREVO_API_KEY`, `FROM_EMAIL`, `OWNER_EMAIL` (`PORT` ki zaroorat nahi), phir **Redeploy**
+   - `FRONTEND_URL` = frontend ka URL (e.g. `https://hasnain-zaidi.vercel.app`), bina `/` ke
+3. Backend ka URL (e.g. `https://hasnain-backend.vercel.app`) frontend project ki `VITE_API_URL` mein daalein → **Redeploy**
+4. Check: `https://<backend>.vercel.app/health` → `status: ok`, `db: connected`
+5. MongoDB Atlas → Network Access → `0.0.0.0/0` allow karein (Vercel ke IP fixed nahi hote)
+
+Note: Vercel request body limit ~4.5 MB hai, isliye admin panel mein upload ki hui pic max 2.5 MB (browser pehle hi auto chhoti kar deta hai).

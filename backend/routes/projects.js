@@ -27,7 +27,7 @@ const slugify = (t = '') =>
   String(t).toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
 
 const ALLOWED_TYPES = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif' };
-const MAX_IMG_BYTES = 3 * 1024 * 1024; // 3 MB
+const MAX_IMG_BYTES = 2.5 * 1024 * 1024; // 2.5 MB (Vercel request limit ~4.5 MB, base64 ~33% bara hota hai)
 
 // body se sirf allowed fields, saaf karke
 function pick(body = {}) {
@@ -164,7 +164,7 @@ router.post('/:id/image', writeLimiter, requireAdmin, requireDb, async (req, res
   }
   const buf = Buffer.from(m[2], 'base64');
   if (!buf.length || buf.length > MAX_IMG_BYTES) {
-    return res.status(413).json({ success: false, message: 'Pic 3 MB se choti honi chahiye.' });
+    return res.status(413).json({ success: false, message: 'Pic 2.5 MB se choti honi chahiye.' });
   }
   try {
     const doc = await Project.findById(req.params.id);

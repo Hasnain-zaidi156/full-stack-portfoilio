@@ -1,4 +1,5 @@
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+// aakhir ka "/" khud hata deta hai (warna //api/... ban kar CORS/redirect error aata hai)
+export const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5000').trim().replace(/\/+$/, '');
 
 // Backend ki relative pic (/api/images/...) ko poora URL do; baaqi URLs jaise hain
 export const resolveImg = (src) => (src && src.startsWith('/api/') ? `${API_URL}${src}` : src);
