@@ -1,36 +1,24 @@
-import React from 'react';
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-
 import Navbar from './components/Navbar';
-import CustomCursor from './components/CustomCursor';
-import Loader from './components/Loader';
+import Chrome from './components/Chrome';
 import Home from './pages/Home';
-import About from './pages/About';
-import Projects from './pages/Projects';
-import Skills from './pages/Skills';
-import Contact from './pages/Contact';
 import Resume from './pages/Resume';
-import Achievements from './pages/Achievements';
-import './style/Global.css';
-import './style/Glass.css';
-import './style/Clay.css';
-function App() {
+import { SearchCtx } from './utils/search';
+import './style/portfolio.css';
+
+export default function App() {
+  const [q, setQ] = useState('');
   return (
-    <>
-      <Loader />
-      <CustomCursor />
-      <Navbar />
+    <SearchCtx.Provider value={q.toLowerCase().trim()}>
+      <a className="skip" href="#main">Skip to content</a>
+      <Chrome />
+      <Navbar q={q} setQ={setQ} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/skills" element={<Skills />} />
-        <Route path="/contact" element={<Contact />} />
         <Route path="/resume" element={<Resume />} />
-        <Route path="/achievements" element={<Achievements />} />
+        <Route path="*" element={<Home />} />
       </Routes>
-    </>
+    </SearchCtx.Provider>
   );
 }
-
-export default App;

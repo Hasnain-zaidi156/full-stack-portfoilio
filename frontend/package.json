@@ -1,5 +1,5 @@
 {
-  "name": "react-portfolio",
+  "name": "hasnain-zaidi-portfolio",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,6 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "gsap": "^3.13.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
     "react": "^19.2.5",

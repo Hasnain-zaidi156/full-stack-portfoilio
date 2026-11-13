@@ -1,117 +1,140 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import '../style/Home.css';
+import { useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { gsap, ScrollTrigger, SplitText, Draggable, scrollToId } from '../utils/gsapSetup';
+import { profile, experience } from '../data/portfolioData';
 import { downloadResumePdf } from '../utils/generateResumePdf';
-import { IconAtom, IconSparkle } from '../components/Icons';
-import { img } from '../utils/images';
-import HangingPhoto from '../components/HangingPhoto';
+import Collection from '../components/Collection';
+import Skills from '../components/Skills';
+import Memories from '../components/Memories';
+import Contact from '../components/Contact';
+
+const SERVICES = [
+  ['Frontend Development', 'Pixel-accurate, performant interfaces.', '◐'], ['Full Stack Web Development', 'MERN apps from database to UI.', '⬡'],
+  ['Responsive Website Design', 'Flawless on every screen.', '▭'], ['Interactive UI Development', 'Motion and micro-interactions.', '✦'],
+  ['Landing Page Development', 'Pages designed to convert.', '⌂'], ['Website Optimization', 'Faster loads, better scores.', '⚡'],
+];
+const MARQUEE = 'REACT ✦ NODE ✦ EXPRESS ✦ MONGODB ✦ GSAP ✦ UI/UX ✦ RESPONSIVE ✦ ';
+let played = false; // preloader sirf pehli dafa
 
 export default function Home() {
-    const [downloading, setDownloading] = useState(false);
+  const root = useRef(null);
+  const loc = useLocation();
 
-    const handleResumeDownload = async () => {
-        setDownloading(true);
-        await downloadResumePdf();
-        setDownloading(false);
-    };
+  useEffect(() => {
+    const $ = (s) => root.current.querySelector(s), $$ = (s) => [...root.current.querySelectorAll(s)];
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const heroIn = () => {
+        const split = SplitText.create('.big', { type: 'chars,words' });
+        gsap.timeline()
+          .from(split.chars, { yPercent: 110, opacity: 0, stagger: 0.015, duration: 0.9, ease: 'lux' })
+          .from(['.status', '.sub', '.name', '.ctas .btn'], { y: 30, opacity: 0, stagger: 0.1, duration: 0.7, ease: 'lux' }, '-=.5')
+          .from('.photo', { scale: 0.8, opacity: 0, duration: 1, ease: 'lux' }, '<')
+          .from('#ring', { drawSVG: 0, duration: 1.6, ease: 'power2.out' }, '<');
+      };
+      if (played) { $('.preloader').style.display = 'none'; heroIn(); } else {
+        played = true;
+        gsap.timeline({ onComplete: heroIn })
+          .to('.pre-bar', { scaleX: 1, duration: 1, ease: 'power2.inOut' })
+          .from('.pre-hz', { yPercent: 40, opacity: 0, duration: 0.8, ease: 'lux' }, 0)
+          .to('.preloader', { yPercent: -100, duration: 0.9, ease: 'power4.inOut' });
+      }
+      // rotating role (TextPlugin)
+      const roles = ['MERN Stack Developer', 'Full Stack Developer', 'React Developer'];
+      let ri = 0;
+      const loop = () => { ri = (ri + 1) % roles.length; gsap.to('#role', { duration: 1, text: roles[ri], ease: 'none' }); gsap.delayedCall(3.5, loop); };
+      gsap.delayedCall(4, loop);
+      gsap.to('#dot', { motionPath: { path: 'M200,4a196,196 0 1,1 0,392a196,196 0 1,1 0,-392' }, duration: 8, repeat: -1, ease: 'none' });
+      gsap.to('.marquee div', { xPercent: -50, duration: 25, ease: 'none', repeat: -1 });
+      $$('[data-scramble]').forEach((el) => { const t = el.textContent;
+        ScrollTrigger.create({ trigger: el, start: 'top 90%', once: true, onEnter: () => gsap.to(el, { duration: 1, scrambleText: { text: t, chars: 'upperCase', speed: 0.6 } }) }); });
+      const sel = '.p,.s,.sv,.timeline article,.achv-card';
+      gsap.set(sel, { opacity: 0, y: 60 });
+      ScrollTrigger.batch(sel, { start: 'top 90%', once: true, onEnter: (b) => gsap.to(b, { opacity: 1, y: 0, stagger: 0.08, duration: 0.9, ease: 'lux' }) });
+      const ab = SplitText.create('.split', { type: 'words' });
+      gsap.from(ab.words, { yPercent: 100, opacity: 0, stagger: 0.05, duration: 0.8, ease: 'lux', scrollTrigger: { trigger: '.split', start: 'top 85%' } });
+      $$('[data-speed]').forEach((el) => gsap.fromTo(el, { yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: el.parentElement, scrub: true } }));
+      gsap.from('.tl-line path', { drawSVG: 0, ease: 'none', scrollTrigger: { trigger: '.timeline', start: 'top 70%', end: 'bottom 70%', scrub: true } });
+      Draggable.create('#drag', { type: 'x,y', bounds: '.portrait', inertia: true });
+      const hire = document.getElementById('hire');
+      const wig = () => gsap.to(hire, { rotation: 8, ease: 'wig', duration: 1 });
+      hire?.addEventListener('mouseenter', wig);
+      const refresh = () => ScrollTrigger.refresh();
+      addEventListener('load', refresh);
+      return () => { hire?.removeEventListener('mouseenter', wig); removeEventListener('load', refresh); };
+    });
+    mm.add('(prefers-reduced-motion: reduce)', () => { $('.preloader').style.display = 'none'; });
+    if (loc.state?.scrollTo) setTimeout(() => scrollToId(loc.state.scrollTo), 700);
+    return () => mm.revert();
+  }, [loc.state]);
 
-    return (
-        <>
-            <section className="hero">
-                <div className="hero-inner">
-                    {/* Left side */}
-                    <div>
-                        <div className="hero-badge">
-                            <span className="badge-dot"></span> Available for Work
-                        </div>
-                        <h1 className="hero-title">
-                            <span className="nm">Hasnain</span>
-                            <span className="ac">Zaidi</span>
-                        </h1>
-                        <p className="hero-role">Full Stack Developer</p>
-                        <p className="hero-desc">
-                            Crafting clean, responsive web experiences with the MERN stack —
-                            React, Node.js, Express &amp; MongoDB. Based in Rohri, Sindh — passionate about bringing designs to life.
-                        </p>
-                        <div className="hero-btns">
-                            <Link to="/projects" className="btn-p">View Projects</Link>
-                            <Link to="/contact" className="btn-o">Get In Touch</Link>
-                            <button
-                                type="button"
-                                className="btn-o"
-                                onClick={handleResumeDownload}
-                                disabled={downloading}
-                            >
-                                {downloading ? 'Preparing PDF...' : 'Download Resume'}
-                            </button>
-                        </div>
-                        <div className="socials">
-                            <a href="https://www.linkedin.com/in/hasnain-zaidi-93727a35a" target="_blank" rel="noreferrer" className="soc">
-                                <img src="https://cdn-icons-png.flaticon.com/128/3992/3992606.png" alt="LinkedIn" />
-                            </a>
-                            <a href="https://github.com/Hasnain-zaidi156" target="_blank" rel="noreferrer" className="soc">
-                                <img src="https://cdn-icons-png.flaticon.com/128/733/733553.png" alt="GitHub" />
-                            </a>
-                            <a href="mailto:drhasnain953@gmail.com" className="soc">
-                                <img src="https://cdn-icons-png.flaticon.com/128/15047/15047587.png" alt="Email" />
-                            </a>
-                            <a href="https://wa.me/923273911082" target="_blank" rel="noreferrer" className="soc">
-                                <img src="https://cdn-icons-png.flaticon.com/128/4423/4423697.png" alt="WhatsApp" />
-                            </a>
-                        </div>
-                        <div className="stats">
-                            <div>
-                                <div className="stat-num">7+</div>
-                                <div className="stat-lbl">Projects Done</div>
-                            </div>
-                            <div>
-                                <div className="stat-num">90%</div>
-                                <div className="stat-lbl">HTML5 Skill</div>
-                            </div>
-                            <div>
-                                <div className="stat-num"><IconAtom /></div>
-                                <div className="stat-lbl">React.js</div>
-                            </div>
-                        </div>
-                    </div>
+  return (
+    <div ref={root}>
+      <div className="preloader" aria-hidden="true"><span className="pre-hz">HZ</span><span className="pre-bar" /></div>
+      <main id="main">
+        <section id="home" className="hero">
+          <p className="status"><i /> Available for new projects</p>
+          <h1 className="big">BUILDING DIGITAL EXPERIENCES THAT MATTER.</h1>
+          <div className="hero-row">
+            <div>
+              <p className="sub">Creative Frontend Developer &amp; <span id="role">MERN Stack Developer</span> crafting modern, interactive and high-performance digital experiences.</p>
+              <p className="name">HASNAIN ZAIDI</p>
+              <div className="ctas">
+                <a href="#collection" className="btn dark mag" onClick={(e) => { e.preventDefault(); scrollToId('collection'); }}>Explore Collection</a>
+                <a href="#contact" className="btn mag" onClick={(e) => { e.preventDefault(); scrollToId('contact'); }}>Let's Work Together</a>
+              </div>
+            </div>
+            <div className="photo">
+              <img src={profile.photo} alt="Hasnain Zaidi portrait" width="400" height="400" fetchPriority="high" />
+              <svg viewBox="0 0 400 400" aria-hidden="true"><circle id="ring" cx="200" cy="200" r="196" fill="none" stroke="currentColor" strokeWidth="1.5" /><circle id="dot" r="9" fill="currentColor" /></svg>
+            </div>
+          </div>
+        </section>
 
-                    {/* Right side — orbit visual */}
-                    <div className="hero-visual">
-                        <HangingPhoto>
-                        <div className="orbit-wrap">
-                            <div className="orbit-ring"></div>
-                            <div className="orbit-ring2"></div>
-                            <div className="profile-img">
-                                <img
-                                    src={img('profile', 'https://i.ibb.co/0p0H1SYJ/new-pic.jpg')}
-                                    alt="Hasnain Zaidi"
-                                    width="340"
-                                    height="340"
-                                    draggable={false}
-                                    fetchPriority="high"
-                                    onError={(e) => {
-                                        const fb = 'https://i.ibb.co/0p0H1SYJ/new-pic.jpg';
-                                        if (e.target.src !== fb && !e.target.dataset.tried) {
-                                            e.target.dataset.tried = '1';
-                                            e.target.src = fb;
-                                        } else {
-                                            e.target.style.display = 'none';
-                                        }
-                                    }}
-                                />
-                            </div>
-                            <div className="chip chip-react"><IconAtom /> React.js</div>
-                            <div className="chip chip-html">&lt;/&gt; HTML5</div>
-                            <div className="chip chip-css"><IconSparkle /> CSS3</div>
-                        </div>
-                        </HangingPhoto>
-                    </div>
-                </div>
-            </section>
+        <div className="marquee" aria-hidden="true"><div><span>{MARQUEE}</span><span>{MARQUEE}</span></div></div>
 
-            <footer>
-                <p>Designed &amp; Built by <span>Hasnain Zaidi</span> — Full Stack Developer</p>
-            </footer>
-        </>
-    );
+        <Collection />
+        <Skills />
+
+        <section className="sec">
+          <p className="eyebrow" data-scramble>Services</p><h2>Shop by Category</h2>
+          <div className="grid services">
+            {SERVICES.map(([t, d, ic]) => <article className="sv" key={t}><span className="ic">{ic}</span><h3>{t}</h3><p>{d}</p></article>)}
+          </div>
+        </section>
+
+        <section id="about" className="sec about">
+          <div>
+            <p className="eyebrow" data-scramble>About</p>
+            <h2 className="split">Dedicated to detail. Driven by design.</h2>
+            <p className="meta">Hasnain Zaidi · MERN Stack Developer | Full Stack Web Developer · {profile.address} · Training: Saylani Mass IT Training (SMIT), TITAN Sukkur</p>
+            <p>I am a dedicated Frontend Developer with a strong focus on building interactive and responsive web applications using React.js. With a solid foundation in JavaScript, HTML5, CSS3, and Bootstrap, I enjoy turning complex problems into simple, beautiful, and intuitive designs.</p>
+            <p>I am also a Homeopathy Doctor, which gives me a unique perspective on attention to detail and a disciplined approach to problem-solving.</p>
+            <div className="ctas">
+              <button className="btn dark mag" onClick={() => downloadResumePdf()}>Download Resume (PDF)</button>
+              <Link className="btn mag" to="/resume">View Resume</Link>
+            </div>
+          </div>
+          <div className="portrait"><img className="plate" data-speed="0.15" src={profile.photo} alt="Hasnain Zaidi" loading="lazy" /><div className="tag" id="drag">Drag me ®</div></div>
+        </section>
+
+        <Memories />
+
+        <section className="sec alt">
+          <p className="eyebrow" data-scramble>Experience &amp; Education</p><h2>Timeline</h2>
+          <div className="timeline">
+            <svg className="tl-line" preserveAspectRatio="none" viewBox="0 0 2 100"><path d="M1 0V100" stroke="currentColor" strokeWidth="2" fill="none" vectorEffect="non-scaling-stroke" /></svg>
+            {experience.map((x) => (
+              <article key={x.title}><time>{x.date}</time><h3>{x.title}</h3><ul>{x.points.map((p) => <li key={p}>{p}</li>)}</ul></article>
+            ))}
+            <article><time>Training</time><h3>Saylani Mass IT Training (SMIT)</h3><p>TITAN Sukkur — MERN Stack development.</p></article>
+            <article><time>College</time><h3>Govt. Islamia Science College Sukkur</h3><p>Intermediate, Computer Science (2024).</p></article>
+          </div>
+        </section>
+
+        <Contact />
+      </main>
+      <footer className="foot"><b>HASNAIN ZAIDI®</b><span>© 2026 · Rohri, Sindh · <Link to="/resume">Resume</Link></span></footer>
+    </div>
+  );
 }
