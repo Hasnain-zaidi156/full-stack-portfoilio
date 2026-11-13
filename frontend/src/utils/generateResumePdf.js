@@ -1,5 +1,6 @@
 import { jsPDF } from 'jspdf';
-import { profile, skills, hobbies, experience, education, projects, achievements } from '../data/portfolioData';
+import { profile, skills, hobbies, experience, education, achievements } from '../data/portfolioData';
+import { getProjects } from './useProjects';
 
 // The 4 actual certificates (rest of the achievements array is just
 // group/memory photos, not certificates) — these go on the resume's
@@ -179,7 +180,7 @@ const buildPdf = async () => {
     sidebarBullets(skills);
 
     sidebarHeading('Projects');
-    const projectLinks = projects.map((p) => ({ name: p.title, link: p.demo }));
+    const projectLinks = getProjects().map((p) => ({ name: p.title, link: p.demo }));
     sidebarBullets(projectLinks, { link: true });
 
     sidebarHeading('Hobbies');

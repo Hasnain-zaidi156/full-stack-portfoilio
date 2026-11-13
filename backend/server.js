@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import contactRoute from './routes/contact.js';
 import feedbackRoute from './routes/feedback.js';
 import imagesRoute from './routes/images.js';
+import projectsRoute from './routes/projects.js';
 import { verifyMailer } from './utils/mailer.js';
 
 const app = express();
@@ -30,6 +31,9 @@ app.use(
     },
   })
 );
+
+// Projects route ka apna bada body limit (pic upload base64 mein aati hai) — global parser se PEHLE
+app.use('/api/projects', express.json({ limit: '6mb' }), projectsRoute);
 
 app.use(express.json({ limit: '50kb' }));
 

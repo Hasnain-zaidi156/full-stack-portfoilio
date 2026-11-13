@@ -8,7 +8,7 @@
   - badge kisi wrapper div mein ho (khali wrapper bhi hata deta hai)
   - class badal jaye (text "Powered by Netlify" se bhi pehchanta hai)
 */
-const SELECTOR = '.nl-badge, #nl-badge, .nl-card, #nl-card';
+const SELECTOR = '.nl-badge, #nl-badge, .nl-card, #nl-card, [aria-label^="Powered by Netlify" i]';
 const TEXT_RE = /^\s*powered by\s*netlify\s*$/i;
 
 function removeFrom(root) {

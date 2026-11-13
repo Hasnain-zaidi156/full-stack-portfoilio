@@ -106,3 +106,32 @@ npm run dev
 - Flags: `--force` (dobara download), `--no-db` (DB skip)
 - DB se pic dekhne ke liye: `GET /api/images` (list) aur `GET /api/images/<key>`
 - `npm run dev` / `npm run build` sirf imagesMap.js refresh karte hain (offline, Netlify safe)
+
+---
+
+## Admin Panel (Projects manage karna)
+
+Site ka `/admin` page (e.g. `https://your-site.netlify.app/admin`) — login `ADMIN_KEY` (backend env) se hota hai, wahi key jo comments delete karne ke liye pehle se use ho rahi hai.
+
+Yahan se kar sakte hain:
+- Project **add / edit / delete**
+- **Pic**: computer se upload (auto chhoti ho kar database mein save hoti hai) ya koi bhi pic ka link
+- Title, description, tags, category, Live Demo link, GitHub link, icon
+- Projects ki **tarteeb** (↑ ↓)
+
+**Pehli dafa:** `/admin` par login karein → "Import projects" dabayein. Isse `portfolioData.js` ke purane projects database mein aa jaate hain (sirf ek dafa, aur sirf tab jab database mein koi project na ho). Uske baad Projects page, Resume page aur Resume PDF — teeno database se chalte hain. Backend band ho ya database na mile to site `portfolioData.js` ki list dikha deti hai.
+
+Likes/comments project ke `slug` se bandhe hain, isliye title badalne par bhi purane likes/comments safe rehte hain.
+
+Backend API: `GET /api/projects` (public); `POST/PUT/DELETE /api/projects`, `PUT /api/projects/reorder`, `POST /api/projects/:id/image`, `POST /api/projects/seed` (header `x-admin-key`).
+
+## Netlify badge
+
+`frontend/src/utils/hideNetlifyBadge.js` ("Powered by Netlify" badge hatata hai — `#nl-badge`, `.nl-badge`, `aria-label` aur shadow DOM sab handle) — `main.jsx` mein chalta hai, aur `index.html` mein ek chhota backup bhi hai.
+
+## Vercel deploy (frontend)
+
+- Root Directory: `frontend`, Framework: Vite (Build `npm run build`, Output `dist`)
+- Env variable: `VITE_API_URL` = Render backend URL (bina `/` ke) — env badalne ke baad **Redeploy** zaroori hai
+- `frontend/vercel.json` `/admin` aur `/resume` jaise routes refresh par 404 hone se bachata hai
+- Backend (Render) mein `FRONTEND_URL` = Vercel ka **Domains** wala URL (e.g. `https://my-portflio-phi.vercel.app`), lamba deployment URL nahi

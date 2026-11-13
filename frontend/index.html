@@ -12,10 +12,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet" />
-    <style id="hide-nl-badge-css">.nl-badge,#nl-badge,.nl-card,#nl-card{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}</style>
+    <style id="hide-nl-badge-css">.nl-badge,#nl-badge,.nl-card,#nl-card,[aria-label^="Powered by Netlify" i]{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}</style>
     <script>
       (function () {
-        var SEL = '.nl-badge, #nl-badge, .nl-card, #nl-card';
+        var SEL = '.nl-badge, #nl-badge, .nl-card, #nl-card, [aria-label^="Powered by Netlify" i]';
         function sweep(root) {
           if (!root || !root.querySelectorAll) return;
           root.querySelectorAll(SEL).forEach(function (el) { el.remove(); });

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import '../style/Resume.css';
-import { profile, skills, hobbies, experience, education, projects } from '../data/portfolioData';
+import { profile, skills, hobbies, experience, education } from '../data/portfolioData';
+import { useProjects } from '../utils/useProjects';
 import { downloadResumePdf } from '../utils/generateResumePdf';
 import { IconDownload } from '../components/Icons';
 
 export default function Resume() {
     const [downloading, setDownloading] = useState(false);
+    const { projects } = useProjects();
 
     const handleDownload = async () => {
         setDownloading(true);

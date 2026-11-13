@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Chrome from './components/Chrome';
 import Home from './pages/Home';
 import Resume from './pages/Resume';
+import Admin from './pages/Admin';
 import { SearchCtx } from './utils/search';
 import './style/portfolio.css';
 
@@ -17,6 +18,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/resume" element={<Resume />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </SearchCtx.Provider>
