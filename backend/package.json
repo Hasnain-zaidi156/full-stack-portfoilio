@@ -1,7 +1,7 @@
 {
   "name": "portfolio-backend",
   "version": "1.0.0",
-  "description": "Contact form backend for the portfolio (Express + Nodemailer)",
+  "description": "Portfolio backend (Express + MongoDB): projects, likes & comments, images",
   "type": "module",
   "main": "server.js",
   "scripts": {

@@ -114,3 +114,12 @@ input.err,textarea.err{border-color:#d33}
 #msg.success{color:#1c8c4a}#msg.error{color:#d33}
 .foot a{text-decoration:underline}
 .ctas{margin-top:8px}
+
+/* ===== Contact cards (form ki jagah) ===== */
+.contact-cards{display:grid;gap:12px;align-content:start}
+.cc{display:grid;grid-template-columns:96px 1fr auto;align-items:center;gap:12px;padding:18px 22px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);backdrop-filter:blur(10px);transition:transform .4s,box-shadow .4s,border-color .4s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(0,0,0,.12);border-color:var(--ink)}
+.cc-label{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)}
+.cc-value{font:500 18px var(--serif);overflow-wrap:anywhere}
+.cc-go{font-size:18px;opacity:.6}
+@media(max-width:560px){.cc{grid-template-columns:1fr auto}.cc-label{grid-column:1/-1}}

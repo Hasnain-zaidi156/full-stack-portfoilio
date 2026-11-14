@@ -2,11 +2,9 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import contactRoute from './routes/contact.js';
 import feedbackRoute from './routes/feedback.js';
 import imagesRoute from './routes/images.js';
 import projectsRoute from './routes/projects.js';
-import { verifyMailer } from './utils/mailer.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -71,7 +69,6 @@ app.get('/health', (req, res) =>
   res.json({ status: 'ok', db: mongoose.connection.readyState === 1 ? 'connected' : 'down' })
 );
 
-app.use('/api/contact', contactRoute);
 app.use('/api/feedback', feedbackRoute);
 app.use('/api/images', imagesRoute);
 
@@ -90,7 +87,6 @@ if (!ON_VERCEL) {
   connectDb();
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-    verifyMailer();
   });
 }
 

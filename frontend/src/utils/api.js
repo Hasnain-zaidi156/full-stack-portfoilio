@@ -26,12 +26,6 @@ async function request(path, { headers, ...options } = {}) {
   return data;
 }
 
-export async function sendContactMessage(payload) {
-  return request('/api/contact', {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  });
-}
 
 // ---- Project likes & comments (sab visitors ke liye shared) ----
 

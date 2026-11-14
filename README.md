@@ -1,13 +1,12 @@
-# Portfolio — Full Stack (React + Node/Express + Brevo API)
+# Portfolio — Full Stack (React + Node/Express + MongoDB)
 
 Is project mein 2 folders hain:
 
 - `frontend/` — React + Vite portfolio (Netlify par deploy hoga)
-- `backend/`  — Express API jo contact form ka email bhejta hai (Render par deploy hoga)
+- `backend/`  — Express API (projects, likes & comments, images) (Render par deploy hoga)
 
 Theme "Iron & Copper" (dark charcoal + steel-blue/copper accents) aur custom cursor bhi add kiya gaya hai.
 
-⚠️ **Important:** Email bhejne ke liye ye project Brevo ki **HTTP API** use karta hai, SMTP nahi — kyunki Render (aur zyadatar free-tier hosts) outbound SMTP ports (25/465/587) block karte hain. HTTP API HTTPS par chalti hai jo kabhi block nahi hoti.
 
 ---
 
@@ -18,7 +17,7 @@ Theme "Iron & Copper" (dark charcoal + steel-blue/copper accents) aur custom cur
 cd backend
 npm install
 cp .env.example .env
-# .env file mein apna BREVO_API_KEY, FROM_EMAIL aur OWNER_EMAIL daalein
+# .env file mein MONGO_URI, ADMIN_KEY aur FRONTEND_URL daalein
 npm start
 ```
 Backend `http://localhost:5000` par chalega.
@@ -33,14 +32,6 @@ npm run dev
 
 ---
 
-## 2. Brevo setup kaise karein
-
-1. [brevo.com](https://brevo.com) par free account banayein
-2. **API Key**: Settings → SMTP & API → API Keys tab → "Generate a new API key" (ye `xkeysib-` se shuru hoti hai) → `.env` mein `BREVO_API_KEY` mein daalein
-3. **Sender verify karein**: [app.brevo.com/senders](https://app.brevo.com/senders) → "Add a sender" → apna email daalein → us email par aaya verification link kholein. Bas isi verified email se hi `FROM_EMAIL` set ho sakta hai, warna Brevo mail reject kar dega
-4. `OWNER_EMAIL` mein wo email daalein jahan "new message" ki notification aani chahiye
-
----
 
 ## 3. Backend Deploy — Render
 
@@ -51,9 +42,6 @@ npm run dev
 5. Environment Variables add karein (Render dashboard mein):
    - `PORT` = `5000`
    - `FRONTEND_URL` = apka Netlify URL (e.g. `https://your-site.netlify.app`)
-   - `BREVO_API_KEY` = apki Brevo API key
-   - `FROM_EMAIL` = apka verified sender email
-   - `OWNER_EMAIL` = jahan notification aani hai
 6. Deploy karein — Render apko ek URL dega jaise `https://portfolio-backend.onrender.com`
 
 `render.yaml` file bhi di gayi hai agar "Blueprint" deploy use karna ho.
@@ -78,18 +66,16 @@ npm run dev
 
 - Backend deploy hone ke baad Render URL copy karein → Netlify env var `VITE_API_URL` mein daal kar re-deploy karein
 - Frontend deploy hone ke baad Netlify URL copy karein → Render env var `FRONTEND_URL` mein daal kar backend restart karein (CORS ke liye zaroori hai)
-- Render ke Logs tab mein "Mailer ready ✅ (Brevo HTTP API)" dikhna chahiye
 
 ---
 
 ## Kya naya add hua hai
 
-- ✅ Brevo HTTP API se functional contact form (owner ko notification + sender ko auto-reply) — Render ke free-tier SMTP block se bachne ke liye
 - ✅ Form mein Phone Number field (optional) + spam-protection honeypot field
 - ✅ Naya unique color theme "Iron & Copper" (`src/style/Global.css` ke CSS variables se)
 - ✅ Custom animated cursor (desktop only, mobile par off)
 - ✅ Navbar active-link bug fix (`Link` → `NavLink`)
-- ✅ Fully responsive contact form
+- ✅ Contact section: WhatsApp / Call / Email / LinkedIn / GitHub cards (form nahi)
 - ✅ `express-rate-limit` trust-proxy fix (Render ke reverse proxy ke liye)
 - ✅ `.env` / `.env.example` dono taraf
 - ✅ `render.yaml` + `netlify.toml` (SPA redirect ke sath)
@@ -140,7 +126,7 @@ Backend API: `GET /api/projects` (public); `POST/PUT/DELETE /api/projects`, `PUT
 
 1. Vercel → **Add New Project** → wahi GitHub repo → **Root Directory: `backend`** → Framework: *Other* → Deploy
    (`backend/vercel.json` + `backend/api/index.js` Express app ko serverless function bana dete hain)
-2. Backend project ke **Environment Variables** mein daalein: `FRONTEND_URL`, `MONGO_URI`, `ADMIN_KEY`, `BREVO_API_KEY`, `FROM_EMAIL`, `OWNER_EMAIL` (`PORT` ki zaroorat nahi), phir **Redeploy**
+2. Backend project ke **Environment Variables** mein daalein: `FRONTEND_URL`, `MONGO_URI`, `ADMIN_KEY` (`PORT` ki zaroorat nahi), phir **Redeploy**
    - `FRONTEND_URL` = frontend ka URL (e.g. `https://hasnain-zaidi.vercel.app`), bina `/` ke
 3. Backend ka URL (e.g. `https://hasnain-backend.vercel.app`) frontend project ki `VITE_API_URL` mein daalein → **Redeploy**
 4. Check: `https://<backend>.vercel.app/health` → `status: ok`, `db: connected`
